@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pccp.model.dao.PccpUserMapper">
+  <resultMap id="BaseResultMap" type="com.example.pccp.model.pojo.PccpUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="organization" jdbcType="VARCHAR" property="organization" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="Role" jdbcType="INTEGER" property="role" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, `name`, pwd, gender, organization, department, `position`, phone, `type`, 
+    `Role`, create_time, `operator`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pccp_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pccp_user
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.example.pccp.model.pojo.PccpUser">
+    insert into pccp_user (id, username, `name`, 
+      pwd, gender, organization, 
+      department, `position`, phone, 
+      `type`, `Role`, create_time, 
+      `operator`)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{pwd,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{organization,jdbcType=VARCHAR}, 
+      #{department,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{role,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.pccp.model.pojo.PccpUser">
+    insert into pccp_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="pwd != null">
+        pwd,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="organization != null">
+        organization,
+      </if>
+      <if test="department != null">
+        department,
+      </if>
+      <if test="position != null">
+        `position`,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="role != null">
+        `Role`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="operator != null">
+        `operator`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="organization != null">
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.pccp.model.pojo.PccpUser">
+    update pccp_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="organization != null">
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null">
+        department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        `position` = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="role != null">
+        `Role` = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        `operator` = #{operator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.pccp.model.pojo.PccpUser">
+    update pccp_user
+    set username = #{username,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=INTEGER},
+      organization = #{organization,jdbcType=VARCHAR},
+      department = #{department,jdbcType=VARCHAR},
+      `position` = #{position,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      `Role` = #{role,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      `operator` = #{operator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from pccp_user
+    where username = #{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pccp_user
+    where username = #{userName,jdbcType=VARCHAR}
+    and pwd = #{password,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectList"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pccp_user
+  </select>
+
+
+
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pccp.model.dao.FlowInfoMapper">
+  <resultMap id="BaseResultMap" type="com.example.pccp.model.pojo.FlowInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pipe_id" jdbcType="INTEGER" property="pipeId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="flow" jdbcType="DOUBLE" property="flow" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pipe_id, `state`, `time`, flow
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from flow_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectListQue" parameterType="com.example.pccp.model.query.FlowInfoQue" resultType="com.example.pccp.model.vo.FlowInfoVO">
+    SELECT
+    au.id as id,
+    au.pipe_id as pipeId,
+    pi.`name` as pipeName,
+    au.flow as flow,
+    au.state as state,
+    au.time as time
+    from flow_info au
+    LEFT JOIN pipe pi on pi.id = au.pipe_id
+    <where>
+      <if test="pipeId != null">
+        and  au.pipe_id =#{pipeId}
+      </if>
+      <if test="state != null">
+        and  au.res_state =#{state}
+      </if>
+      <if test="startTime != null">
+        and  au.time >=#{startTime}
+      </if>
+      <if test="endTime != null">
+        and  au.time &lt;=#{endTime}
+      </if>
+    </where>
+
+  </select>
+
+  <select id="selectListByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from flow_info
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey">
+    delete from flow_info
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.example.pccp.model.pojo.FlowInfo">
+    insert into flow_info (id, pipe_id, `state`, 
+      `time`, flow)
+    values (#{id,jdbcType=INTEGER}, #{pipeId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{time,jdbcType=VARCHAR}, #{flow,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.pccp.model.pojo.FlowInfo">
+    insert into flow_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pipeId != null">
+        pipe_id,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="time != null">
+        `time`,
+      </if>
+      <if test="flow != null">
+        flow,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pipeId != null">
+        #{pipeId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="flow != null">
+        #{flow,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.pccp.model.pojo.FlowInfo">
+    update flow_info
+    <set>
+      <if test="pipeId != null">
+        pipe_id = #{pipeId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        `time` = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="flow != null">
+        flow = #{flow,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.pccp.model.pojo.FlowInfo">
+    update flow_info
+    set pipe_id = #{pipeId,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=INTEGER},
+      `time` = #{time,jdbcType=VARCHAR},
+      flow = #{flow,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

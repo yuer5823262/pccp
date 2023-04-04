@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pccp.model.dao.AudioUrlMapper">
+  <resultMap id="BaseResultMap" type="com.example.pccp.model.pojo.AudioUrl">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pipe_id" jdbcType="INTEGER" property="pipeId" />
+    <result column="measure_url" jdbcType="VARCHAR" property="measureUrl" />
+    <result column="get_url" jdbcType="VARCHAR" property="getUrl" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="create_operator" jdbcType="VARCHAR" property="createOperator" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pipe_id, measure_url, get_url, create_time, create_operator
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from audio_url
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectListQue" parameterType="com.example.pccp.model.query.AudioUrQue" resultType="com.example.pccp.model.vo.AudioUrlVO">
+    SELECT
+      au.id as id,
+      au.pipe_id as pipeId,
+      pi.`name`as pipeName,
+      au.measure_url as measureUrl,
+      au.get_url as getUrl,
+      au.create_time as createTime,
+      au.create_operator as createOperator
+    FROM
+      audio_url au
+        LEFT JOIN pipe pi ON pi.id = au.pipe_id
+    <where>
+      <if test="pipeId != null">
+        and  au.pipe_id =#{pipeId}
+      </if>
+    </where>
+
+  </select>
+
+  <select id="selectByPipeId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from audio_url
+    where pipe_id = #{pipeId,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectListByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from audio_url
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey">
+    delete from audio_url
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.example.pccp.model.pojo.AudioUrl">
+    insert into audio_url (id, pipe_id, measure_url, 
+      get_url, create_time, create_operator
+      )
+    values (#{id,jdbcType=INTEGER}, #{pipeId,jdbcType=INTEGER}, #{measureUrl,jdbcType=VARCHAR}, 
+      #{getUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{createOperator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.pccp.model.pojo.AudioUrl">
+    insert into audio_url
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pipeId != null">
+        pipe_id,
+      </if>
+      <if test="measureUrl != null">
+        measure_url,
+      </if>
+      <if test="getUrl != null">
+        get_url,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createOperator != null">
+        create_operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pipeId != null">
+        #{pipeId,jdbcType=INTEGER},
+      </if>
+      <if test="measureUrl != null">
+        #{measureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="getUrl != null">
+        #{getUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperator != null">
+        #{createOperator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.pccp.model.pojo.AudioUrl">
+    update audio_url
+    <set>
+      <if test="pipeId != null">
+        pipe_id = #{pipeId,jdbcType=INTEGER},
+      </if>
+      <if test="measureUrl != null">
+        measure_url = #{measureUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="getUrl != null">
+        get_url = #{getUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperator != null">
+        create_operator = #{createOperator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.pccp.model.pojo.AudioUrl">
+    update audio_url
+    set pipe_id = #{pipeId,jdbcType=INTEGER},
+      measure_url = #{measureUrl,jdbcType=VARCHAR},
+      get_url = #{getUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      create_operator = #{createOperator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

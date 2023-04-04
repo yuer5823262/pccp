@@ -1,0 +1,26 @@
+
+server:
+  port: 8082
+  servlet:
+    context-path: /pccp
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+  jpa:
+    show-sql: true
+
+  datasource:
+
+              driver-class-name: com.mysql.cj.jdbc.Driver
+              name: dam_pouring_datasource
+              username: root
+              password: dam_dam5000
+              url: jdbc:mysql://39.107.204.26:3306/pccp?useUnicode=true
+#              type: com.alibaba.druid.pool.DruidDataSource
+
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+logging:
+  config: classpath:log4j2.xml
+

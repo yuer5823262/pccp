@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pccp.model.dao.PipeMapper">
+  <resultMap id="BaseResultMap" type="com.example.pccp.model.pojo.Pipe">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="create_operator" jdbcType="VARCHAR" property="createOperator" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, `name`, `position`, create_time, create_operator
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pipe
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectListQue" parameterType="com.example.pccp.model.query.PipeQue" resultType="com.example.pccp.model.vo.PipeVO">
+    SELECT
+    <include refid="Base_Column_List" />
+    from pipe
+    <where>
+      <if test="name != null">
+        and  name =#{name}
+      </if>
+      <if test="position != null">
+        and  position =#{position}
+      </if>
+      <if test="que != null">
+        and  name like "%"#{que}"%" or position like "%"#{que}"%"
+      </if>
+    </where>
+
+  </select>
+
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pipe
+    where name = #{name,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectListByIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pipe
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </select>
+  <delete id="deleteByPrimaryKey">
+    delete from pipe
+    where id in
+    <foreach close=")" collection="ids" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <insert id="insert" parameterType="com.example.pccp.model.pojo.Pipe">
+    insert into pipe (id, `name`, `position`, 
+      create_time, create_operator)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{createOperator,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.pccp.model.pojo.Pipe">
+    insert into pipe
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="position != null">
+        `position`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createOperator != null">
+        create_operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperator != null">
+        #{createOperator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.pccp.model.pojo.Pipe">
+    update pipe
+    <set>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        `position` = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperator != null">
+        create_operator = #{createOperator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.pccp.model.pojo.Pipe">
+    update pipe
+    set `name` = #{name,jdbcType=VARCHAR},
+      `position` = #{position,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      create_operator = #{createOperator,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.pccp.model.dao.PccpLogMapper">
+  <resultMap id="BaseResultMap" type="com.example.pccp.model.pojo.PccpLog">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ip_addr" jdbcType="VARCHAR" property="ipAddr" />
+    <result column="time" jdbcType="VARCHAR" property="time" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, ip_addr, `time`, `operator`, `type`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pccp_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pccp_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.pccp.model.pojo.PccpLog">
+    insert into pccp_log (id, ip_addr, `time`, 
+      `operator`, `type`)
+    values (#{id,jdbcType=INTEGER}, #{ipAddr,jdbcType=VARCHAR}, #{time,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.pccp.model.pojo.PccpLog">
+    insert into pccp_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ipAddr != null">
+        ip_addr,
+      </if>
+      <if test="time != null">
+        `time`,
+      </if>
+      <if test="operator != null">
+        `operator`,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ipAddr != null">
+        #{ipAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.pccp.model.pojo.PccpLog">
+    update pccp_log
+    <set>
+      <if test="ipAddr != null">
+        ip_addr = #{ipAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        `time` = #{time,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null">
+        `operator` = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.pccp.model.pojo.PccpLog">
+    update pccp_log
+    set ip_addr = #{ipAddr,jdbcType=VARCHAR},
+      `time` = #{time,jdbcType=VARCHAR},
+      `operator` = #{operator,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectList" resultMap="BaseResultMap" parameterType="com.example.pccp.model.query.PccpLogQue">
+    select
+    <include refid="Base_Column_List" />
+    from pccp_log
+    <where>
+      <if test="userName != null">
+        and operator =#{userName}
+      </if>
+      <if test="type != null">
+        and type =#{type}
+      </if>
+      <if test="startTime != null">
+        and  time &gt;=#{startTime}
+      </if>
+      <if test="endTime != null">
+        and time &lt;= #{endTime}
+      </if>
+    </where>
+  </select>
+</mapper>
